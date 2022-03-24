@@ -27,9 +27,14 @@ const HomeView = (props) => {
 		dispatch('BUSY', page);
 	}
 
+	const loadMore = (page, breed) => {
+		service.getImages(page, breed).then(res => {
+			dispatch('LOAD_MORE', { moreCats: res.data, pagination: page })
+		});
+	}
+
 	const select = (breed) => {
 		dispatch('SELECT_BREED', breed);
-		console.log(breed)
 		if (breed) {
 			load(1, breed);
 		}
@@ -71,7 +76,7 @@ const HomeView = (props) => {
 				{(animalList.overflow ? '' :
 					<Row>
 						<Col md={3} sm={6} xs={12}>
-							<Button variant="success" disabled={!animalList.breed || animalList.busy} type="button" onClick={() => { load(animalList.page + 1, animalList.breed) }}>
+							<Button variant="success" disabled={!animalList.breed || animalList.busy} type="button" onClick={() => { loadMore(animalList.page + 1, animalList.breed) }}>
 								{animalList.busy ? 'Loading cats...' : 'Load more'}
 							</Button>
 						</Col>

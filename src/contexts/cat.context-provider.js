@@ -27,7 +27,6 @@ export const AnimalListStm = ({children}) => {
         break;
       case 'SELECT_BREED':
         const updateBreed = payload;
-        console.log(updateBreed);
         setAnimalList({
           ...animalList,
           breed: updateBreed,
@@ -35,25 +34,38 @@ export const AnimalListStm = ({children}) => {
         });
         console.log(animalList)
         break;
-      case 'LOAD_IMAGES':
-        const { cats, breed, page } = payload;
-        console.log(cats)
+      case 'LOAD_MORE':
+        const { moreCats, pagination } = payload;
         const newCats = [];
-        cats.forEach((cat) => {
+        moreCats.forEach((cat) => {
           if (findIndex(animalList.cats, ({ id }) => (id === cat.id)) < 0) {
             newCats.push(cat);
           }
         })
         setAnimalList({
           ...animalList,
-          page: page,
-          breed: breed,
+          page: pagination,
           busy: false,
           cats: [
             ...animalList.cats,
             ...newCats
           ],
           overflow: (newCats.length === 0),
+        });
+        console.log(animalList.cats)
+        break;
+
+      case 'LOAD_IMAGES':
+        const { cats, breed, page } = payload;
+        setAnimalList({
+          ...animalList,
+          page: page,
+          breed: breed,
+          busy: false,
+          cats: [
+            ...cats
+          ],
+          overflow: (cats.length === 0),
         });
         break;
       case 'LOAD_IMAGE':
