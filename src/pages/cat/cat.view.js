@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { AnimalListProvider } from "../../contexts/cat.context-provider";
+import { AnimalListContext } from "../../contexts/cat.context";
 import { CatService } from "../../services/cat.service";
 import { Link, useParams } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
@@ -7,7 +7,7 @@ import Card from 'react-bootstrap/Card';
 import './cat.scss'
 
 const CatView = () => {
-	const [animalList, dispatch] = useContext(AnimalListProvider);
+	const [animalList, dispatch] = useContext(AnimalListContext);
 	const service = new CatService();
 	const { id } = useParams()
 

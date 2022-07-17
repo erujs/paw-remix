@@ -4,20 +4,22 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.scss';
 import Home from './pages/home/home.view';
 import Cat from './pages/cat/cat.view';
-import { AnimalListStm } from './contexts/cat.context-provider';
+import Error from "./pages/error/error.view"
+import { AnimalListProvider } from './contexts/cat.context';
 import 'bootstrap/dist/css/bootstrap.min.css';
  
 const App = () => {
   return (
-    <div className="App">
-      <AnimalListStm>
+    <div className="App bg-dark">
+      <AnimalListProvider>
         <Router>
           <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/:id" element={<Cat />} />
+              <Route path='*' element={<Error errorcode={"[404] Page Not Found!"} />} />
           </Routes>
         </Router>
-      </AnimalListStm>
+      </AnimalListProvider>
     </div>
   );
 }
