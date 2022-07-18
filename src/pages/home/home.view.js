@@ -15,18 +15,22 @@ import './home.scss';
 import logo from '../../logo.svg';
 
 const HomeView = () => {
-	const [animalList, dispatch] = useContext(AnimalListContext);
+	const [errorResponse, animalList, dispatch] = useContext(AnimalListContext);
 	const service = new CatService();
 
 	useEffect(() => {
 		service.getCats().then(res => {
-			dispatch('INITIALIZE_CATS', { cats: res.data });
+			dispatch('INITIALIZE_CATS', { cats: res.data })
+		}).catch(error => {
+			dispatch('ERROR', { error: error })
 		});
 	}, [])
 
 	const load = (page, breed) => {
 		service.getImages(page, breed).then(res => {
 			dispatch('LOAD_IMAGES', { cats: res.data, breed: breed, page: page })
+		}).catch(error => {
+			dispatch('ERROR', { error: error })
 		});
 		dispatch('BUSY', page);
 	}
@@ -34,6 +38,8 @@ const HomeView = () => {
 	const loadMore = (page, breed) => {
 		service.getImages(page, breed).then(res => {
 			dispatch('LOAD_MORE', { moreCats: res.data, pagination: page })
+		}).catch(error => {
+			dispatch('ERROR', { error: error })
 		});
 	}
 
@@ -45,15 +51,15 @@ const HomeView = () => {
 	}
 
 	let pageRender = () => {
-		switch (animalList.status) {
+		switch (errorResponse.status) {
 			case 200:
 				return (
-					<Container>
+					<Container className='content'>
 						<Credits />
 						<Row className="justify-content-md-center header">
 							<Col md={6} sm={5} xs={12} className="py-2">
 								<h1>Welcome to Felis!</h1>
-								<p>Felis is a cats browser ui template made with <img src={logo} className="App-logo" alt="logo" /></p>
+								<p>Felis is a cats browser ui template made with <img src={logo} className="react-logo" alt="logo" /></p>
 								<Form.Group controlId="breed">
 									<Form.Label>Start by selecting a breed:</Form.Label>
 									<Form.Select disabled={!animalList.ready || animalList.busy} as="select" onChange={(e) => { select(e.target.value); }}>
@@ -66,38 +72,35 @@ const HomeView = () => {
 								</Form.Group>
 							</Col>
 						</Row>
-						<Row className='content'>
+						<Row>
 							{(!animalList.cats.length ?
 								<CatsPlaceholder /> :
 								animalList.cats.map(({ id, url }, i) => (
 									<Col md={3} sm={6} xs={12} key={i}>
-										<Card>
-											<Card.Img variant="top" src={url} />
-											<Card.Body>
-												<Link className="btn btn-primary btn-block" to={'/' + id}>View details</Link>
-											</Card.Body>
-										</Card>
+										<Link className="btn btn-primary btn-block" to={'/cat/' + id}>
+											<Card href={'/cat/' + id} className="bg-dark text-white">
+												<Card.Img src={url} />
+											</Card>
+										</Link>
 									</Col>
 								))
 							)}
 						</Row>
 						{(animalList.overflow ? '' :
-							<Row>
-								<Col md={3} sm={6} xs={12}>
-									<Button variant="success" disabled={!animalList.breed || animalList.busy} type="button" onClick={() => { loadMore(animalList.page + 1, animalList.breed) }}>
-										{animalList.busy ? 'Loading cats...' : 'Load more'}
-									</Button>
-								</Col>
+							<Row className='justify-content-center m-4'>
+								<Button variant="outline-primary" 
+										className="load-more"
+										hidden={!animalList.breed || animalList.busy} 
+										onClick={() => { loadMore(animalList.page + 1, animalList.breed) }}>
+									{animalList.busy ? 'Loading cats...' : 'Load more'}
+								</Button>
 							</Row>
 						)}
 					</Container >
 				)
-			case 503:
-				return <Error errorcode={"[503] Service Unavailable!"}
-					info={"Server is down, kindly refresh the page"} />
-			case 204:
-				return <Error errorcode={"[204] No Response!"}
-					info={"Data cannot find in the server, check URL or contact the administrator"} />
+			case errorResponse.status:
+				return <Error errorcode={'ERROR [' + errorResponse.status + ']'}
+					info={errorResponse.data} />
 			default:
 				// add placeholder
 				return <>loading...</>

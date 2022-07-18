@@ -4,8 +4,12 @@ import { findIndex } from 'lodash';
 export const AnimalListContext = createContext();
 
 export const AnimalListProvider = ({ children }) => {
-	const [animalList, setAnimalList] = useState({
+	const [errorResponse, setErrorResponse] = useState({
 		status: 200,
+		data: null
+	});
+
+	const [animalList, setAnimalList] = useState({ 
 		list: [],
 		breed: '',
 		cats: [],
@@ -34,7 +38,6 @@ export const AnimalListProvider = ({ children }) => {
 					breed: updateBreed,
 					cats: []
 				});
-				console.log(animalList)
 				break;
 			case 'LOAD_MORE':
 				const { moreCats, pagination } = payload;
@@ -54,7 +57,6 @@ export const AnimalListProvider = ({ children }) => {
 					],
 					overflow: (newCats.length === 0),
 				});
-				console.log(animalList.cats)
 				break;
 
 			case 'LOAD_IMAGES':
@@ -86,16 +88,12 @@ export const AnimalListProvider = ({ children }) => {
 					page: busy
 				});
 				break;
-			case 'SERVICE_DOWN':
-				setAnimalList({
-					...animalList,
-					status: 503
-				})
-				break;
-			case 'NO_RESPONSE':
-				setAnimalList({
-					...animalList,
-					status: 204
+			case 'ERROR':
+				const error = payload.error
+				setErrorResponse({
+					...errorResponse,
+					status: error.status,
+					data: error.data.message
 				})
 				break;
 			// no default
@@ -103,7 +101,7 @@ export const AnimalListProvider = ({ children }) => {
 	}
 
 	return <>
-		<AnimalListContext.Provider value={[animalList, dispatch]}>
+		<AnimalListContext.Provider value={[errorResponse, animalList, dispatch]}>
 			{children}
 		</AnimalListContext.Provider>
 	</>

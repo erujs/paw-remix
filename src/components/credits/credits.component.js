@@ -3,7 +3,7 @@ import "./credits.scss";
 
 const Credits = () => {
     return (
-        <code>dev with ♡ By Jrsqn</code>
+        <code className="dev">dev with ♡ By Jrsqn</code>
     )
 }
 

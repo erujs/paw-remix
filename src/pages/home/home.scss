@@ -16,28 +16,32 @@
 }
 
 .content {
-  height: calc(100vh - 397px);
+  height: 100vh;
   color: white;
 }
 
-.App-logo {
+.react-logo {
   height: 5vmin;
   pointer-events: none;
 }
 
+.load-more {
+  width: 50% !important;
+}
+
 @media screen and (min-width: 768px) {
-  .App-logo {
+  .react-logo {
     height: 2.5vmin;
   }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+  .react-logo {
+    animation: react-logo-spin infinite 20s linear;
   }
 }
 
-@keyframes App-logo-spin {
+@keyframes react-logo-spin {
   from {
     transform: rotate(0deg);
   }
