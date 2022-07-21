@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { CatContext } from "../../contexts/cat.context";
 import { CatService } from "../../services/cat.service";
 import Error from "../error/error.view";
-import Credits from "../../components/credits/credits.component";
+import Credits from "../../components/signature/signature.component";
 // import CatsPlaceholder from '../../components/placeholder/placeholder.component';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';

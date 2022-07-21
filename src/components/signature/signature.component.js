@@ -1,5 +1,5 @@
 import React from 'react';
-import "./credits.scss";
+import "./signature.scss";
 
 const Credits = () => {
     return (
