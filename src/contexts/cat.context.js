@@ -1,16 +1,16 @@
 import { createContext, useState } from "react";
 import { findIndex } from 'lodash';
 
-export const AnimalListContext = createContext();
+export const CatContext = createContext();
 
-export const AnimalListProvider = ({ children }) => {
+export const CatProvider = ({ children }) => {
 	const [errorResponse, setErrorResponse] = useState({
 		status: 200,
 		data: null
 	});
 
-	const [animalList, setAnimalList] = useState({ 
-		list: [],
+	const [catList, setCatList] = useState({
+		breeds: [],
 		breed: '',
 		cats: [],
 		cat: [],
@@ -22,19 +22,18 @@ export const AnimalListProvider = ({ children }) => {
 
 	const dispatch = (action, payload) => {
 		switch (action) {
-			case 'INITIALIZE_CATS':
-				console.log('initializing cats...');
-				const n = payload.cats;
-				setAnimalList({
-					...animalList,
-					list: n,
+			case 'INITIALIZE_BREEDS':
+				const breeds = payload.breeds
+				setCatList({
+					...catList,
+					breeds: breeds,
 					ready: true
 				});
 				break;
 			case 'SELECT_BREED':
 				const updateBreed = payload;
-				setAnimalList({
-					...animalList,
+				setCatList({
+					...catList,
 					breed: updateBreed,
 					cats: []
 				});
@@ -42,17 +41,17 @@ export const AnimalListProvider = ({ children }) => {
 			case 'LOAD_MORE':
 				const { moreCats, pagination } = payload;
 				const newCats = [];
-				moreCats.forEach((cat) => {
-					if (findIndex(animalList.cats, ({ id }) => (id === cat.id)) < 0) {
-						newCats.push(cat);
+				moreCats.forEach((newCat) => {
+					if (findIndex(catList.cats, ({ id }) => (id === newCat.id)) < 0) {
+						newCats.push(newCat);
 					}
 				})
-				setAnimalList({
-					...animalList,
+				setCatList({
+					...catList,
 					page: pagination,
 					busy: false,
 					cats: [
-						...animalList.cats,
+						...catList.cats,
 						...newCats
 					],
 					overflow: (newCats.length === 0),
@@ -60,32 +59,29 @@ export const AnimalListProvider = ({ children }) => {
 				break;
 
 			case 'LOAD_IMAGES':
-				const { cats, breed, page } = payload;
-				setAnimalList({
-					...animalList,
-					page: page,
-					breed: breed,
+				setCatList({
+					...catList,
+					page: payload.page,
+					breed: payload.breed,
 					busy: false,
 					cats: [
-						...cats
+						...catList.cats
 					],
-					overflow: (cats.length === 0),
+					overflow: (payload.cats.length === 0),
 				});
 				break;
 			case 'LOAD_IMAGE':
-				const cat = payload.cat;
-				setAnimalList({
-					...animalList,
-					cat: cat,
+				setCatList({
+					...catList,
+					cat: payload.cat,
 					ready: true
 				});
 				break;
 			case 'BUSY':
-				const busy = payload;
-				setAnimalList({
-					...animalList,
+				setCatList({
+					...catList,
 					busy: true,
-					page: busy
+					page: payload
 				});
 				break;
 			case 'ERROR':
@@ -101,9 +97,8 @@ export const AnimalListProvider = ({ children }) => {
 	}
 
 	return <>
-		<AnimalListContext.Provider value={[errorResponse, animalList, dispatch]}>
+		<CatContext.Provider value={[errorResponse, catList, dispatch]}>
 			{children}
-		</AnimalListContext.Provider>
+		</CatContext.Provider>
 	</>
-
 }
