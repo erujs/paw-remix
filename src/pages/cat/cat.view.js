@@ -8,7 +8,7 @@ import Card from 'react-bootstrap/Card';
 import './cat.scss'
 
 const CatView = () => {
-	const [errorResponse, catList, dispatch] = useContext(CatContext);
+	const [errorResponse, catState, dispatch] = useContext(CatContext);
 	const service = new CatService();
 	const { id } = useParams()
 
@@ -23,8 +23,8 @@ const CatView = () => {
 	})
 
 	const renderDetails = () => {
-		if (catList.cat.breeds) {
-			const breeds = catList.cat.breeds[0];
+		if (catState.cat.breeds) {
+			const breeds = catState.cat.breeds[0];
 			return (
 				<>
 					<h4>{breeds.name}</h4>
@@ -42,12 +42,12 @@ const CatView = () => {
 				return (
 					<div className="Cat">
 						<Container>
-							{catList.ready ?
+							{catState.ready ?
 								<Card>
 									<Card.Header>
-										<Link className="btn btn-primary" to={'/?breed=' + catList.breed}>Back</Link>
+										<Link className="btn btn-primary" to={'/?breed=' + catState.breed}>Back</Link>
 									</Card.Header>
-									<Card.Img src={catList.cat.url} />
+									<Card.Img src={catState.cat.url} />
 									<Card.Body>
 										{renderDetails()}
 									</Card.Body>

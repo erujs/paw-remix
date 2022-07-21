@@ -9,7 +9,7 @@ export const CatProvider = ({ children }) => {
 		data: null
 	});
 
-	const [catList, setCatList] = useState({
+	const [catState, setCatState] = useState({
 		breeds: [],
 		breed: '',
 		cats: [],
@@ -24,16 +24,16 @@ export const CatProvider = ({ children }) => {
 		switch (action) {
 			case 'INITIALIZE_BREEDS':
 				const breeds = payload.breeds
-				setCatList({
-					...catList,
+				setCatState({
+					...catState,
 					breeds: breeds,
 					ready: true
 				});
 				break;
 			case 'SELECT_BREED':
 				const updateBreed = payload;
-				setCatList({
-					...catList,
+				setCatState({
+					...catState,
 					breed: updateBreed,
 					cats: []
 				});
@@ -42,16 +42,16 @@ export const CatProvider = ({ children }) => {
 				const { moreCats, pagination } = payload;
 				const newCats = [];
 				moreCats.forEach((newCat) => {
-					if (findIndex(catList.cats, ({ id }) => (id === newCat.id)) < 0) {
+					if (findIndex(catState.cats, ({ id }) => (id === newCat.id)) < 0) {
 						newCats.push(newCat);
 					}
 				})
-				setCatList({
-					...catList,
+				setCatState({
+					...catState,
 					page: pagination,
 					busy: false,
 					cats: [
-						...catList.cats,
+						...catState.cats,
 						...newCats
 					],
 					overflow: (newCats.length === 0),
@@ -59,27 +59,28 @@ export const CatProvider = ({ children }) => {
 				break;
 
 			case 'LOAD_IMAGES':
-				setCatList({
-					...catList,
+				console.log()
+				setCatState({
+					...catState,
 					page: payload.page,
 					breed: payload.breed,
 					busy: false,
 					cats: [
-						...catList.cats
+						payload.cats
 					],
 					overflow: (payload.cats.length === 0),
 				});
 				break;
 			case 'LOAD_IMAGE':
-				setCatList({
-					...catList,
+				setCatState({
+					...catState,
 					cat: payload.cat,
 					ready: true
 				});
 				break;
 			case 'BUSY':
-				setCatList({
-					...catList,
+				setCatState({
+					...catState,
 					busy: true,
 					page: payload
 				});
@@ -97,7 +98,7 @@ export const CatProvider = ({ children }) => {
 	}
 
 	return <>
-		<CatContext.Provider value={[errorResponse, catList, dispatch]}>
+		<CatContext.Provider value={[errorResponse, catState, dispatch]}>
 			{children}
 		</CatContext.Provider>
 	</>

@@ -1,5 +1,5 @@
 import React from 'react';
-import "./signature.scss";
+import "./eru.scss";
 
 const Credits = () => {
     return (
