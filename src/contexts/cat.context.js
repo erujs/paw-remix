@@ -10,6 +10,7 @@ export const CatProvider = ({ children }) => {
 	});
 
 	const [catState, setCatState] = useState({
+		animal: null,
 		breeds: [],
 		breed: '',
 		cats: [],
@@ -23,10 +24,10 @@ export const CatProvider = ({ children }) => {
 	const dispatch = (action, payload) => {
 		switch (action) {
 			case 'INITIALIZE_BREEDS':
-				const breeds = payload.breeds
 				setCatState({
 					...catState,
-					breeds: breeds,
+					animal: payload.animal,
+					breeds: payload.breeds,
 					ready: true
 				});
 				break;

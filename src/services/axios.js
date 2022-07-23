@@ -1,7 +1,14 @@
 import axios from 'axios';
 
-const instance = axios.create({
-    baseURL: 'https://api.thecatapi.com/v1/'
+const dogInstance = axios.create({
+    baseURL: 'https://api.thedogapi.com/v1/'
 });
 
-export default instance;
+const catInstance = axios.create({
+    baseURL: 'https://api.thecatapi.com/v1/'
+})
+
+export {
+    dogInstance,
+    catInstance
+};
