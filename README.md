@@ -11,7 +11,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## API
 
-This application is using a Free version of thecatapi. Visit [docs.thecatapi.com](https://docs.thecatapi.com) to explore more.
+This application is using a free version of [thecatapi](https://docs.thecatapi.com) & [thedogapi](https://docs.thedogapi.com).
 
 ## Learn More
 
