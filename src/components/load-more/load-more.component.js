@@ -1,17 +1,17 @@
 import React, { useContext } from "react";
-import { CatContext } from "../../contexts/cat.context";
-import { CatService } from "../../services/cat.service";
+import { AnimalContext } from "../../contexts/animal.context";
+import { AnimalService } from "../../services/animal.service";
 
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 
 const LoadMore = () => {
-  const [catState, dispatch] = useContext(CatContext);
-	const service = new CatService();
+  const [errorResponse, animalState, dispatch] = useContext(AnimalContext);
+	const service = new AnimalService();
 
   const loadMore = (page, breed) => {
-		service.getImages(page, breed).then(res => {
-			dispatch('LOAD_MORE', { moreCats: res.data, pagination: page })
+		service.getImages(animalState.animal, page, breed).then(res => {
+			dispatch('LOAD_MORE', {data: res.data, pagination: page })
 		}).catch(error => {
 			dispatch('ERROR', { error: error })
 		});
@@ -21,9 +21,9 @@ const LoadMore = () => {
     <Row className='justify-content-center m-4'>
       <Button variant="outline-primary"
         className="load-more"
-        hidden={!catState.breed || catState.busy}
-        onClick={() => { loadMore(catState.page + 1, catState.breed) }}>
-        {catState.busy ? 'Loading cats...' : 'Load more'}
+        hidden={!animalState.breed || animalState.busy}
+        onClick={() => { loadMore(animalState.page + 1, animalState.breed) }}>
+        {animalState.busy ? 'Loading ...' : 'Load more'}
       </Button>
     </Row>
   )

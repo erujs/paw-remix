@@ -1,30 +1,28 @@
 import React, { useContext, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Error from "../error/error.view";
-import { CatContext } from "../../contexts/cat.context";
-import { CatService } from "../../services/cat.service";
+import { AnimalContext } from "../../contexts/animal.context";
+import { AnimalService } from "../../services/animal.service";
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
-import './cat.scss'
+import './animal.scss'
 
-const CatView = () => {
-	const [errorResponse, catState, dispatch] = useContext(CatContext);
-	const service = new CatService();
+const AnimalView = () => {
+	const [errorResponse, animalState, dispatch] = useContext(AnimalContext);
+	const service = new AnimalService();
 	const { id } = useParams()
 
 	useEffect(() => {
-			service.getCatImage(id).then(res => {
-				console.log(res)
-				dispatch('LOAD_IMAGE', { cat: res.data })
+			service.getItemImage(animalState.animal, id).then(res => {
+				dispatch('LOAD_IMAGE', { data: res.data })
 			}).catch((error) => {
-				console.log(error)
 				dispatch('ERROR', { error: error })
 			});
 	})
 
 	const renderDetails = () => {
-		if (catState.cat.breeds) {
-			const breeds = catState.cat.breeds[0];
+		if (animalState.item.breeds) {
+			const breeds = animalState.item.breeds[0];
 			return (
 				<>
 					<h4>{breeds.name}</h4>
@@ -40,14 +38,14 @@ const CatView = () => {
 		switch (errorResponse.status) {
 			case 200:
 				return (
-					<div className="Cat">
+					<div className="animal">
 						<Container>
-							{catState.ready ?
+							{animalState.ready ?
 								<Card>
 									<Card.Header>
-										<Link className="btn btn-primary" to={'/?breed=' + catState.breed}>Back</Link>
+										<Link className="btn btn-primary" to={'/?breed=' + animalState.breed}>Back</Link>
 									</Card.Header>
-									<Card.Img src={catState.cat.url} />
+									<Card.Img src={animalState.item.url} />
 									<Card.Body>
 										{renderDetails()}
 									</Card.Body>
@@ -68,4 +66,4 @@ const CatView = () => {
 	return pageRender();
 }
 
-export default CatView;
+export default AnimalView;

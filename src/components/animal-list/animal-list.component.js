@@ -1,18 +1,17 @@
 import React, { useContext } from "react";
-import { CatContext } from "../../contexts/cat.context";
+import { AnimalContext } from "../../contexts/animal.context";
 import { Link } from 'react-router-dom';
 
-import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image'
 
-const CatList = () => {
-  const [errorResponse, catState, dispatch] = useContext(CatContext);
+const AnimalList = () => {
+  const [errorResponse, animalState, dispatch] = useContext(AnimalContext);
 
   return (
-    catState.cats[0].map(({ id, url }, i) => (
+    animalState.list[0].map(({ id, url }, i) => (
       <Col md={3} sm={6} xs={12} key={i}>
-        <Link to={'/cat/' + id}>
+        <Link to={'/animal/' + id}>
           <Image fluid src={url} />
         </Link>
       </Col>
@@ -20,4 +19,4 @@ const CatList = () => {
   )
 }
 
-export default CatList;
+export default AnimalList;

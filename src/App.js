@@ -3,23 +3,23 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import './App.scss';
 import Home from './pages/home/home.view';
-import Cat from './pages/cat/cat.view';
+import Animal from './pages/animal/animal.view';
 import Error from "./pages/error/error.view"
-import { CatProvider } from './contexts/cat.context';
+import { AnimalProvider } from './contexts/animal.context';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
   return (
     <div className="App bg-dark">
-      <CatProvider>
+      <AnimalProvider>
         <Router>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/cat/:id" element={<Cat />} />
+            <Route path="/animal/:id" element={<Animal />} />
             <Route path='*' element={<Error errorcode={"ERROR [404]"} info={"Page Not Found!"} />} />
           </Routes>
         </Router>
-      </CatProvider>
+      </AnimalProvider>
     </div>
   );
 }

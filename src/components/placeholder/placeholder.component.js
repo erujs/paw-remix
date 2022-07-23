@@ -3,7 +3,7 @@ import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card';
 import Placeholder from 'react-bootstrap/Placeholder';
 
-const CatsPlaceholder = () => {
+const AnimalPlaceholder = () => {
 	const iteration = new Array(4);
 
 	const renderPlaceholder = () => {
@@ -29,4 +29,4 @@ const CatsPlaceholder = () => {
 	return renderPlaceholder;
 }
 
-export default CatsPlaceholder;
+export default AnimalPlaceholder;

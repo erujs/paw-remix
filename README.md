@@ -1,4 +1,4 @@
-# Getting Started with Felis
+# Getting Started with Canes Feles
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

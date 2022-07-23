@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from 'react';
-import { CatContext } from "../../contexts/cat.context";
-import { CatService } from "../../services/cat.service";
+import React, { useContext } from 'react';
+import { AnimalContext } from "../../contexts/animal.context";
+import { AnimalService } from "../../services/animal.service";
 import Error from "../error/error.view";
 import Eru from "../../components/eru/eru";
-import CatsPlaceholder from '../../components/placeholder/placeholder.component';
-import CatList from "../../components/cat-list/cat-list.component";
+import Placeholder from '../../components/placeholder/placeholder.component';
+import AnimalList from "../../components/animal-list/animal-list.component";
 import LoadMore from '../../components/load-more/load-more.component';
 
 import Container from 'react-bootstrap/Container';
@@ -15,12 +15,12 @@ import './home.scss';
 import logo from '../../logo.svg';
 
 const HomeView = () => {
-	const [errorResponse, catState, dispatch] = useContext(CatContext);
-	const service = new CatService();
+	const [errorResponse, animalState, dispatch] = useContext(AnimalContext);
+	const service = new AnimalService();
 
 	const initBreeds = (animal) => {
-		service.getCats().then(res => {
-			dispatch('INITIALIZE_BREEDS', { breeds: res.data, animal: animal })
+		service.getList(animal).then(res => {
+			dispatch('INITIALIZE_BREEDS', { data: res.data, animal: animal })
 		}).catch(error => {
 			console.log(error)
 			dispatch('ERROR', { error: error })
@@ -28,8 +28,8 @@ const HomeView = () => {
 	}
 
 	const load = (page, breed) => {
-		service.getImages(page, breed).then(res => {
-			dispatch('LOAD_IMAGES', { cats: res.data, breed: breed, page: page })
+		service.getImages(animalState.animal, page, breed).then(res => {
+			dispatch('LOAD_IMAGES', { data: res.data, breed: breed, page: page })
 		}).catch(error => {
 			dispatch('ERROR', { error: error })
 		});
@@ -42,8 +42,6 @@ const HomeView = () => {
 			load(1, breed);
 		}
 	}
-
-
 
 	let pageRender = () => {
 		switch (errorResponse.status) {
@@ -59,18 +57,18 @@ const HomeView = () => {
 									<Form.Label>Animal:</Form.Label>
 									<Form.Select onChange={(e) => { initBreeds(e.target.value); }}>
 										<option value="">Select Animal</option>
-										<option value="Dog">Dog</option>
-										<option value="Cat">Cat</option>
+										<option value="dog">Dog</option>
+										<option value="cat">Cat</option>
 									</Form.Select>
 								</Form.Group>
 
-								{catState.animal
+								{animalState.animal
 									? <Form.Group>
 										<Form.Label>Breed:</Form.Label>
-										<Form.Select disabled={!catState.ready || catState.busy} onChange={(e) => { selectBreed(e.target.value); }}>
+										<Form.Select disabled={!animalState.ready || animalState.busy} onChange={(e) => { selectBreed(e.target.value); }}>
 											<option value="">Select breed</option>
-											{catState.breeds
-												? catState.breeds.map(({ id, name }) => (
+											{animalState.breeds
+												? animalState.breeds.map(({ id, name }) => (
 													<option key={id} value={id}>{name}</option>
 												))
 												: null}
@@ -82,11 +80,11 @@ const HomeView = () => {
 						</Row>
 
 						<Row>
-							{catState.cats.length && catState.animal
-								? <CatList />
-								: <CatsPlaceholder />
+							{animalState.list.length && animalState.animal
+								? <AnimalList />
+								: <Placeholder />
 							}
-							{catState.overflow ? '' : <LoadMore />}
+							{animalState.overflow ? '' : <LoadMore />}
 						</Row>
 					</Container >
 				)
