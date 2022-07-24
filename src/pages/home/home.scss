@@ -4,6 +4,7 @@
 }
 
 .content {
+  height: 100vh;
   color: white;
 }
 
@@ -12,8 +13,8 @@
   pointer-events: none;
 }
 
-.load-more {
-  width: 50% !important;
+.image-link:hover {
+  background: 'linear-gradient(45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5) 100%)';
 }
 
 @media screen and (min-width: 768px) {

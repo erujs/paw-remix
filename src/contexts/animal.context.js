@@ -9,7 +9,7 @@ export const AnimalProvider = ({ children }) => {
 		data: null
 	});
 
-	const [animalState, setAnimalState] = useState({
+	const initialState = {
 		animal: null,
 		breeds: [],
 		breed: null,
@@ -19,10 +19,17 @@ export const AnimalProvider = ({ children }) => {
 		busy: false,
 		page: 1,
 		ready: false
-	});
+	}
+
+	const [animalState, setAnimalState] = useState(initialState);
 
 	const dispatch = (action, payload) => {
 		switch (action) {
+			case 'RESET_DATA':
+				setAnimalState({
+					...initialState
+				})
+				break;
 			case 'INITIALIZE_BREEDS':
 				setAnimalState({
 					...animalState,
