@@ -5,7 +5,11 @@ import { AnimalContext } from "../../contexts/animal.context";
 import { AnimalService } from "../../services/animal.service";
 
 import Container from 'react-bootstrap/Container';
-import Card from 'react-bootstrap/Card';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Image from 'react-bootstrap/Image';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import './animal.scss'
 
 const AnimalView = () => {
@@ -40,16 +44,18 @@ const AnimalView = () => {
 			case 200:
 				return (
 					<Container className='content'>
+						<Link to={'/' + animal + '/?breed=' + animalState.breed}>
+							<FontAwesomeIcon icon={faCircleChevronLeft} size="2x" className="link" />
+						</Link>
 						{animalState.ready ?
-							<Card className='bg-dark'>
-								<Card.Header>
-									<Link className="btn btn-primary" to={'/' + animal + '/?breed=' + animalState.breed}>Back</Link>
-								</Card.Header>
-								<Card.Img src={animalState.item.url} />
-								<Card.Body>
-									{renderDetails()}
-								</Card.Body>
-							</Card>
+							<Row className="justify-content-md-center header">
+								<Col md={10} sm={6} xs={12} className="py-2">
+									<Image src={animalState.item.url} className="image" />
+									<p>
+										{renderDetails()}
+									</p>
+								</Col>
+							</Row>
 							: <h5>Loading...</h5>}
 					</Container>
 				)

@@ -31,8 +31,8 @@ const HomeView = () => {
 									<h1>Welcome to Canes Feles!</h1>
 									<p>A dogs and cats browser ui template made with <img src={logo} className="react-logo" alt="logo" /></p>
 									<p>Select your preference:</p>
-									<Link to={'/dog'} >
-										<Image fluid src={require('../../assets/dog.jpg')} className="image-link" />
+									<Link to={'/dog'} className="image-link">
+										<Image fluid src={require('../../assets/dog.jpg')} />
 									</Link>
 									<Link to={'/cat'}>
 										<Image fluid src={require('../../assets/cat.jpg')} />

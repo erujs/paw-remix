@@ -4,11 +4,13 @@ import { AnimalService } from "../../services/animal.service";
 import { Link, useParams } from 'react-router-dom';
 
 import ThemeProvider from 'react-bootstrap/ThemeProvider';
+import Container from "react-bootstrap/esm/Container";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Image from 'react-bootstrap/Image';
-import Container from "react-bootstrap/esm/Container";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import './animal-list.scss';
 
 const AnimalList = () => {
@@ -46,22 +48,26 @@ const AnimalList = () => {
   return (
     <ThemeProvider>
       <Container className="content">
+        <Link to={'/'}><FontAwesomeIcon icon={faCircleChevronLeft} size="2x" className="link" /></Link>
         <Row className="justify-content-md-center header">
-          <Link className="btn btn-primary" to={'/'}>Back</Link>
-          <Form.Group>
-            <Form.Label>Breed:</Form.Label>
-            <Form.Select disabled={!animalState.ready || animalState.busy} onChange={(e) => { selectBreed(e.target.value); }}>
-              <option value="">Select breed</option>
-              {animalState.breeds
-                ? animalState.breeds.map(({ id, name }) => (
-                  <option key={id} value={id}>{name}</option>
-                ))
-                : null}
-            </Form.Select>
-          </Form.Group>
+          <Col md={6} sm={6} xs={12} className="py-2">
+            <Form.Group>
+              <Form.Label>Breed:</Form.Label>
+              <Form.Select disabled={!animalState.ready || animalState.busy} onChange={(e) => { selectBreed(e.target.value); }}>
+                <option value="">Select breed</option>
+                {animalState.breeds
+                  ? animalState.breeds.map(({ id, name }) => (
+                    <option key={id} value={id}>{name}</option>
+                  ))
+                  : null}
+              </Form.Select>
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row>
           {animalState.list.length
             ? animalState.list[0].map(({ id, url }, i) => (
-              <Col md={3} sm={6} xs={12} key={i}>
+              <Col md={3} sm={6} xs={12} key={id} className="py-2">
                 <Link to={'/' + animal + '/' + id}>
                   <Image fluid src={url} />
                 </Link>
