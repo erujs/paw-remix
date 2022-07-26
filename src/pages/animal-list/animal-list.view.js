@@ -11,7 +11,7 @@ import Form from 'react-bootstrap/Form';
 import Image from 'react-bootstrap/Image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import './animal-list.scss';
+import styles from './animal-list.module.scss';
 
 const AnimalList = () => {
   const [errorResponse, animalState, dispatch] = useContext(AnimalContext);
@@ -47,10 +47,10 @@ const AnimalList = () => {
 
   return (
     <ThemeProvider>
-      <Container className="content">
-        <Link to={'/'}><FontAwesomeIcon icon={faCircleChevronLeft} size="2x" className="link" /></Link>
-        <Row className="justify-content-md-center header">
-          <Col md={6} sm={6} xs={12} className="py-2">
+      <Container className={styles.content}>
+        <Link to={'/'}><FontAwesomeIcon icon={faCircleChevronLeft} size="2x" className={styles.link} /></Link>
+        <Row className={["justify-content-md-center", styles.header].join(' ')}>
+          <Col md={6} sm={6} xs={12} className={"py-2"}>
             <Form.Group>
               <Form.Label>Breed:</Form.Label>
               <Form.Select disabled={!animalState.ready || animalState.busy} onChange={(e) => { selectBreed(e.target.value); }}>
@@ -67,7 +67,7 @@ const AnimalList = () => {
         <Row>
           {animalState.list.length
             ? animalState.list[0].map(({ id, url }, i) => (
-              <Col md={3} sm={6} xs={12} key={id} className="py-2">
+              <Col md={3} sm={6} xs={12} key={id} className={"py-2"}>
                 <Link to={'/' + animal + '/' + id}>
                   <Image fluid src={url} />
                 </Link>

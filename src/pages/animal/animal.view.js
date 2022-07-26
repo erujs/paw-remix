@@ -10,7 +10,7 @@ import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import './animal.scss'
+import styles from './animal.module.scss';
 
 const AnimalView = () => {
 	const [errorResponse, animalState, dispatch] = useContext(AnimalContext);
@@ -43,14 +43,14 @@ const AnimalView = () => {
 		switch (errorResponse.status) {
 			case 200:
 				return (
-					<Container className='content'>
+					<Container className={styles.conent}>
 						<Link to={'/' + animal + '/?breed=' + animalState.breed}>
-							<FontAwesomeIcon icon={faCircleChevronLeft} size="2x" className="link" />
+							<FontAwesomeIcon icon={faCircleChevronLeft} size="2x" className={styles.link} />
 						</Link>
 						{animalState.ready ?
-							<Row className="justify-content-md-center header">
-								<Col md={10} sm={6} xs={12} className="py-2">
-									<Image src={animalState.item.url} className="image" />
+							<Row className={[styles.header, "justify-content-md-center"].join(' ')}>
+								<Col md={10} sm={6} xs={12} className={"py-2"}>
+									<Image src={animalState.item.url} className={styles.image} />
 									<p>
 										{renderDetails()}
 									</p>

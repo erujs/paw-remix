@@ -1,9 +1,9 @@
 import React from 'react';
-import "./eru.scss";
+import styles from "./eru.module.scss";
 
 const Credits = () => {
     return (
-        <code className="dev">dev with ♡ By Jrsqn</code>
+        <code className={styles.code}>dev with ♡ By Jrsqn</code>
     )
 }
 

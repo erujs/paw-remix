@@ -8,28 +8,28 @@
   color: white;
 }
 
-.react-logo {
+.logo {
   height: 5vmin;
   pointer-events: none;
 }
 
-.image-link:hover {
+.link:hover {
   background: 'linear-gradient(45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5) 100%)';
 }
 
 @media screen and (min-width: 768px) {
-  .react-logo {
+  .logo {
     height: 2.5vmin;
   }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .react-logo {
-    animation: react-logo-spin infinite 20s linear;
+  .logo {
+    animation: logo-spin infinite 20s linear;
   }
 }
 
-@keyframes react-logo-spin {
+@keyframes logo-spin {
   from {
     transform: rotate(0deg);
   }
