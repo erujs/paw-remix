@@ -50,13 +50,13 @@ const AnimalView = () => {
 						{animalState.ready ?
 							<Row className={[styles.header, "justify-content-md-center"].join(' ')}>
 								<Col md={10} sm={6} xs={12} className={"py-2"}>
-									<Image src={animalState.item.url} className={styles.image} />
+									<Image fluid src={animalState.item.url} />
 									<p>
 										{renderDetails()}
 									</p>
 								</Col>
 							</Row>
-							: <h5>Loading...</h5>}
+							: <>loading...</>}
 					</Container>
 				)
 			case errorResponse.status:

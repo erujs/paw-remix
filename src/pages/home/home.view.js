@@ -25,12 +25,16 @@ const HomeView = () => {
 				return (
 					<ThemeProvider>
 						<Eru />
-						<Container className={styles.content}>
-							<Row className={["justify-content-md-center", styles.header].join(' ')}>
-								<Col md={6} sm={5} xs={12} className={"py-2"}>
+						<Container className={[styles.content, 'bg-dark'].join(" ")}>
+							<Row className={'justify-content-md-center pt-5'}>
+								<Col md={6} sm={6} xs={12}>
 									<h1>Welcome to Canes Feles!</h1>
 									<p>A dogs and cats browser ui template made with <img src={logo} className={styles.logo} alt="logo" /></p>
 									<p>Select your preference:</p>
+								</Col>
+							</Row>
+							<Row className={'justify-content-md-center pb-4'}>
+								<Col md={6} sm={6} xs={12}>
 									<Link to={'/dog'} className={styles.link}>
 										<Image fluid src={require('../../assets/dog.jpg')} />
 									</Link>
