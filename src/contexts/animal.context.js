@@ -13,6 +13,7 @@ export const AnimalProvider = ({ children }) => {
 		animal: null,
 		breeds: [],
 		breed: null,
+		breedId: null,
 		list: [],
 		item: [],
 		overflow: false,
@@ -41,7 +42,8 @@ export const AnimalProvider = ({ children }) => {
 			case 'SELECT_BREED':
 				setAnimalState({
 					...animalState,
-					breed: payload,
+					breedId: payload.id,
+					breed: payload.name,
 					list: []
 				});
 				break;
@@ -66,11 +68,10 @@ export const AnimalProvider = ({ children }) => {
 				break;
 
 			case 'LOAD_IMAGES':
-				console.log()
 				setAnimalState({
 					...animalState,
 					page: payload.page,
-					breed: payload.breed,
+					breedId: payload.id,
 					busy: false,
 					list: [
 						payload.data

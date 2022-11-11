@@ -1,16 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { ChevronLeftIcon } from '@heroicons/react/20/solid'
 import Error from "../error/error.view";
 import { AnimalContext } from "../../contexts/animal.context";
 import { AnimalService } from "../../services/animal.service";
 
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Image from 'react-bootstrap/Image';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import styles from './animal.module.scss';
 
 const AnimalView = () => {
 	const [errorResponse, animalState, dispatch] = useContext(AnimalContext);
@@ -43,21 +37,19 @@ const AnimalView = () => {
 		switch (errorResponse.status) {
 			case 200:
 				return (
-					<Container className={styles.conent}>
-						<Link to={'/' + animal + '/?breed=' + animalState.breed}>
-							<FontAwesomeIcon icon={faCircleChevronLeft} size="2x" className={styles.link} />
-						</Link>
+					<div className="bg-black flex flex-col min-h-screen p-16">
 						{animalState.ready ?
-							<Row className={[styles.header, "justify-content-md-center"].join(' ')}>
-								<Col md={10} sm={6} xs={12} className={"py-2"}>
-									<Image fluid src={animalState.item.url} />
+							<div className="justify-center text-white px-4 py-8">
+									<img alt='' className='w-full object-contain' src={animalState.item.url} />
 									<p>
 										{renderDetails()}
 									</p>
-								</Col>
-							</Row>
+							</div>
 							: <>loading...</>}
-					</Container>
+						<Link to={'/' + animal + '/?breed=' + animalState.breedId}>
+							<ChevronLeftIcon className="static lg:absolute lg:bottom-10 lg:absolute bottom-10 right-10 text-white h-24 w-24" />
+						</Link>
+					</div>
 				)
 			case errorResponse.status:
 				return <Error errorcode={'ERROR [' + errorResponse.status + ']'}
