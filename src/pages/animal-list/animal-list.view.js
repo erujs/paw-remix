@@ -110,22 +110,21 @@ const AnimalList = () => {
           </Listbox>
         </div>
       </div>
-      <div className="flex flex-col lg:flex-row justify-between lg:justify-between">
+      <div className="flex flex-col flex-wrap lg:flex-row justify-center">
         {animalState.list.length
           ? animalState.list[0].map(({ id, url }, i) => (
-            <div className="h-full">
+            // <div className="lg:w-96 lg:h-96">
               <Link to={'/' + animal + '/' + id}>
-                <img className="object-contain" alt={id} fluid="true" src={url} />
+                <img alt={id} className="object-fill lg:w-96 lg:h-96" src={url} />
               </Link>
-            </div>
+            // </div>
           ))
           // animalState.overflow ? null : <LoadMore />
           : null}
       </div>
-      <Link to={'/'}>
-        {/* <FontAwesomeIcon icon={faCircleChevronLeft} size="2x" className="absolute top-10 right-10 text-white" /> */}
+      {/* <Link to={'/'}>
         <ChevronLeftIcon className="static lg:absolute lg:bottom-10 lg:right-10 text-white h-24 w-24" />
-      </Link>
+      </Link> */}
     </div>
   )
 }
