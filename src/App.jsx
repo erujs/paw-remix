@@ -1,27 +1,27 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/home/home.view';
-import AnimalList from './pages/animal-list/animal-list.view';
-import Animal from './pages/animal/animal.view';
-import Error from "./pages/error/error.view"
-import { AnimalProvider } from './contexts/animal.context';
-import './App.scss';
+import Home from './pages/home/home';
+import Error from "./pages/error/error"
+import AnimalList from './pages/animal-list/animalList';
+import Animal from './pages/animal/animal';
+import { AnimalProvider } from './contexts/animalContext';
+import './App.css'
 
 const App = () => {
   return (
-    <div className="App bg-dark">
+    <div className="App">
       <AnimalProvider>
         <Router>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path='/:animal' element={<AnimalList />} />
             <Route path="/:animal/:id" element={<Animal />} />
-            <Route path='*' element={<Error errorcode={"ERROR [404]"} info={"Page Not Found!"} />} />
+            <Route path='*' element={<Error statusCode={"ERROR [404]"} statusMessage={"Page Not Found!"} />} />
           </Routes>
         </Router>
       </AnimalProvider>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

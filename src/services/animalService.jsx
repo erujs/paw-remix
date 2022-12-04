@@ -1,7 +1,7 @@
 import {
   dogInstance,
   catInstance
-} from './axios';
+} from './axios.jsx';
 
 export class AnimalService {
   async getList(animal){
