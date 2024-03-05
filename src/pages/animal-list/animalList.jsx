@@ -13,6 +13,14 @@ const AnimalList = () => {
   const { animal } = useParams();
 
   useEffect(() => {
+    document.title = animal === 'dog' ? 'Feles' : 'Canes';
+
+    return () => {
+      document.title = 'Feles et Canes';
+    };
+  }, []);
+
+  useEffect(() => {
     service
       .getList(animal)
       .then(res => {
