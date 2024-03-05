@@ -18,7 +18,7 @@ const HomeView = () => {
       <Eru />
       <TechStack />
       <div className="container text-white">
-        <h1 className="text-4xl text-center font-bold py-5">Welcome to Canes Feles!</h1>
+        <h1 className="text-4xl text-center font-bold py-5">Welcome to Feles et Canes!</h1>
         <div className='flex flex-col items-center'>
           <p className='pb-2'>Discover adorable dogs and cats, each with delightful descriptions.</p>
           <p className='pb-2'>Experience blazing speed – no ruff days here! Faster than a cat chasing a laser pointer!</p>
