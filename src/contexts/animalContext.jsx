@@ -24,14 +24,16 @@ export const AnimalProvider = ({ children }) => {
         });
         break;
       case 'INITIALIZE_BREEDS':
-        setAnimalState({
-          ...animalState,
-          breeds: payload.data,
-          statusCode: payload.status,
-          statusText: payload.message,
-          selected: [],
-          list: [],
-        });
+        setTimeout(() => {
+          setAnimalState({
+            ...animalState,
+            breeds: payload.data,
+            statusCode: payload.status,
+            statusText: payload.message,
+            selected: [],
+            list: [],
+          });
+        }, 3000);
         break;
       case 'LOAD_IMAGES':
         setAnimalState({

@@ -1,10 +1,11 @@
 import React, { useContext, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import AOS from 'aos';
 import { HomeIcon } from '@heroicons/react/20/solid';
 import { AnimalContext } from '../../contexts/animalContext';
 import { AnimalService } from '../../services/animalService';
 import Error from '../error/error';
-import Listbox from '../../components/listbox/listbox';
+import { CustomCombobox } from '../../components/combobox/combobox';
 import { Loader } from '../../components/svg/svg';
 
 const AnimalList = () => {
@@ -37,18 +38,19 @@ const AnimalList = () => {
   }, []);
 
   const renderAnimalList = () => {
+    AOS.init();
     switch (animalState.statusCode) {
       case null:
         return <Loader />;
       case 200:
         return (
           <>
-            <div className="flex flex-col justify-center min-h-screen p-16">
-              <Listbox />
+            <div className="flex flex-col justify-center min-h-screen p-8 md:p-16 bg-gradient-to-b from-red-400 to-teal-600">
+              <CustomCombobox />
               <div className="flex flex-col flex-wrap lg:flex-row justify-center">
                 {animalState.list.length
                   ? animalState.list[0].map(({ id, url }, i) => (
-                      // <div className="lg:w-96 lg:h-96">
+                    <>
                       <Link to={'/' + animal + '/' + id}>
                         <img
                           alt={id}
@@ -56,20 +58,21 @@ const AnimalList = () => {
                           src={url}
                         />
                       </Link>
-                      // </div>
-                    ))
+                      {/* <div data-aos="fade-up" /> */}
+                    </>
+                  ))
                   : // animalState.overflow ? null : <LoadMore />
-                    null}
+                  null}
               </div>
             </div>
-            <div className="fixed bottom-0 z-10 w-full bg-black">
+            <div className="fixed bottom-0 z-10 w-full bg-teal">
               <Link to="/" className="flex-1">
                 <button
                   type="button"
-                  className="group h-16 w-full block hover:bg-teal-700"
+                  className="group h-16 w-full block hover:bg-red-400"
                 >
                   <HomeIcon className="group-hover:hidden center w-6 h-6 mb-2 mx-auto" />
-                  <p className="hidden group-hover:block">HOME</p>
+                  <p className="hidden group-hover:block text-teal-600 font-bold">HOME</p>
                 </button>
               </Link>
             </div>

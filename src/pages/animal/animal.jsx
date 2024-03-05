@@ -11,6 +11,8 @@ const AnimalView = () => {
   const service = new AnimalService();
   const { animal, id } = useParams();
 
+  console.log(animalState)
+
   useEffect(() => {
     service
       .getItemImage(animal, id)
@@ -27,16 +29,27 @@ const AnimalView = () => {
   }, []);
 
   const renderDetails = () => {
-    if (animalState.selected.breeds) {
-      const breeds = animalState.selected.breeds[0];
+    if (animalState?.selected?.breeds) {
+      const breeds = animalState?.selected?.breeds[0];
       return (
         <>
-          <p className="text-2xl mb-4">{breeds.name}</p>
+          <p className="text-2xl mb-4">{breeds?.name}</p>
+          <p className="text-lg mb-4">{breeds?.description}</p>
           <p className="text-base">
-            {breeds.origin ? 'Origin: ' + breeds.origin : null}
+            {breeds?.bred_for ? 'Bred For: ' + breeds?.bred_for : null}
           </p>
-          <p className="text-base">Temperament: {breeds.temperament}</p>
-          <p className="text-lg mt-4">{breeds.description}</p>
+          <p className="text-base">
+            {breeds?.breed_group ? 'Breed Group: ' + breeds?.breed_group : null}
+          </p>
+          <p className="text-base">
+            {breeds?.life_span ? 'Life Span: ' + breeds?.life_span : null}
+          </p>
+          <p className="text-base">
+            {breeds?.origin ? 'Origin: ' + breeds?.origin : null}
+          </p>
+          <p className="text-base">
+            {breeds?.temperament ? 'Temperament: ' + breeds?.temperament : null}
+          </p>
         </>
       );
     }
@@ -49,7 +62,7 @@ const AnimalView = () => {
       case 200:
         return (
           <>
-            <div className="flex flex-col justify-center min-h-screen p-16">
+            <div className="flex flex-col justify-center min-h-screen p-8 md:p-16 bg-gradient-to-b from-red-400 to-teal-600">
               <div className="text-white">
                 <img
                   alt=""
@@ -59,11 +72,11 @@ const AnimalView = () => {
                 <div className="mt-4">{renderDetails()}</div>
               </div>
             </div>
-            <footer className="fixed bottom-0 z-10 w-full bg-black flex h-16 items-center">
+            <footer className="fixed bottom-0 z-10 w-full bg-teal flex h-16 items-center">
               <Link to="/" className="flex-1">
                 <button
                   type="button"
-                  className="group w-full block h-16 hover:bg-teal-700"
+                  className="group w-full block h-16 hover:bg-red-400"
                 >
                   <HomeIcon className="group-hover:hidden center w-6 h-6 mb-2 mx-auto" />
                   <p className="hidden group-hover:block">HOME</p>
@@ -72,7 +85,7 @@ const AnimalView = () => {
               <Link to={'/' + animal} className="flex-1">
                 <button
                   type="button"
-                  className="group w-full block h-16 hover:bg-teal-700"
+                  className="group w-full block h-16 hover:bg-red-400"
                 >
                   <ArrowUturnLeftIcon className="group-hover:hidden w-6 h-6 mb-2 mx-auto" />
                   <p className="hidden group-hover:block">BACK</p>
