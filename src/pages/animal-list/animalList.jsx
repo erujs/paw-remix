@@ -65,11 +65,11 @@ const AnimalList = () => {
                   null}
               </div>
             </div>
-            <div className="fixed bottom-0 z-10 w-full bg-teal">
+            <div className="fixed bottom-0 z-10 w-full bg-teal transition-all duration-300 ease-in-out">
               <Link to="/" className="flex-1">
                 <button
                   type="button"
-                  className="group h-16 w-full block hover:bg-red-400"
+                  className="group h-16 w-full block hover:bg-red-400 transition-all duration-300 ease-in-out"
                 >
                   <HomeIcon className="group-hover:hidden center w-6 h-6 mb-2 mx-auto" />
                   <p className="hidden group-hover:block text-teal-600 font-bold">HOME</p>
