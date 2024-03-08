@@ -72,11 +72,11 @@ const AnimalView = () => {
                 <div className="mt-4">{renderDetails()}</div>
               </div>
             </div>
-            <footer className="fixed bottom-0 z-10 w-full bg-teal flex h-16 items-center">
+            <footer className="fixed bottom-0 z-10 w-full bg-teal flex h-16 items-center transition-all duration-300 ease-in-out">
               <Link to="/" className="flex-1">
                 <button
                   type="button"
-                  className="group w-full block h-16 hover:bg-red-400"
+                  className="group w-full block h-16 hover:bg-red-400 transition-all duration-300 ease-in-out"
                 >
                   <HomeIcon className="group-hover:hidden center w-6 h-6 mb-2 mx-auto" />
                   <p className="hidden group-hover:block">HOME</p>
@@ -85,7 +85,7 @@ const AnimalView = () => {
               <Link to={'/' + animal} className="flex-1">
                 <button
                   type="button"
-                  className="group w-full block h-16 hover:bg-red-400"
+                  className="group w-full block h-16 hover:bg-red-400 transition-all duration-300 ease-in-out"
                 >
                   <ArrowUturnLeftIcon className="group-hover:hidden w-6 h-6 mb-2 mx-auto" />
                   <p className="hidden group-hover:block">BACK</p>
