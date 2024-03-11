@@ -33,7 +33,7 @@ export const AnimalProvider = ({ children }) => {
             selected: [],
             list: [],
           });
-        }, 3000);
+        }, 1000);
         break;
       case 'LOAD_IMAGES':
         setAnimalState({
