@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import AOS from 'aos';
+import 'aos/dist/aos.css';
 import { HomeIcon } from '@heroicons/react/20/solid';
 import { AnimalContext } from '../../contexts/animalContext';
 import { AnimalService } from '../../services/animalService';
@@ -37,6 +38,13 @@ const AnimalList = () => {
       });
   }, []);
 
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,  // Set the duration of the animation
+      easing: 'ease-in-out',  // Set the easing for the animation
+    });
+  }, []);
+
   const renderAnimalList = () => {
     AOS.init();
     switch (animalState.statusCode) {
@@ -50,16 +58,16 @@ const AnimalList = () => {
               <div className="flex flex-col flex-wrap lg:flex-row justify-center">
                 {animalState.list.length
                   ? animalState.list[0].map(({ id, url }, i) => (
-                    <>
-                      <Link to={'/' + animal + '/' + id}>
+                    <div key={id} data-aos="fade-up">
+                      <Link to={`/${animal}/${id}`} className="image-link">
                         <img
                           alt={id}
-                          className="object-fill lg:w-64 lg:h-64"
+                          className="enchanting-image object-fill lg:w-64 lg:h-64"
                           src={url}
                         />
                       </Link>
                       {/* <div data-aos="fade-up" /> */}
-                    </>
+                    </div>
                   ))
                   : // animalState.overflow ? null : <LoadMore />
                   null}

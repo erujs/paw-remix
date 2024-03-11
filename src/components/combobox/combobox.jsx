@@ -1,5 +1,5 @@
 import React, { useState, useContext, Fragment } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Combobox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import { AnimalContext } from '../../contexts/animalContext';
@@ -11,6 +11,7 @@ export const CustomCombobox = () => {
     const [query, setQuery] = useState('')
     const service = new AnimalService();
     const { animal } = useParams();
+    const navigate = useNavigate();
 
     const filteredBreeds =
         query === ''
@@ -44,6 +45,9 @@ export const CustomCombobox = () => {
         if (breed?.id !== selected.id) {
             load(1, breed?.id);
         }
+        // const currentPath = window.location.pathname;
+        // const newPath = `${currentPath}/${breed?.name.replace(/\s+/g, '-').toLowerCase()}`;
+        // navigate(newPath);
     };
 
     return (
