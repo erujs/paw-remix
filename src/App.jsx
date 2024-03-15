@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/home/home';
 import Error from "./pages/error/error"
-import AnimalList from './pages/animal-list/animalList';
+import AnimalList from './pages/animalList/animalList';
 import Animal from './pages/animal/animal';
 import { AnimalProvider } from './contexts/animalContext';
 import './App.css'
