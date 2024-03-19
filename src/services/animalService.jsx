@@ -16,13 +16,13 @@ export class AnimalService {
     }
   }
 
-  async getImages(animal, page, breed){
+  async getImages(animal, page, limit, breed){
     if(animal === 'dog'){
-      const res = await dogInstance.get(`/images/search?page=${page}&limit=10&breed_id=${breed}`)
+      const res = await dogInstance.get(`/images/search?page=${page}&limit=${limit}&breed_id=${breed}`)
       .catch(error => {throw error.response})
       return await res;
     }else {
-      const res = await catInstance.get(`/images/search?page=${page}&limit=10&breed_id=${breed}`)
+      const res = await catInstance.get(`/images/search?page=${page}&limit=${limit}&breed_id=${breed}`)
       .catch(error => {throw error.response})
       return await res;
     }

@@ -7,8 +7,9 @@ export const AnimalProvider = ({ children }) => {
   const initialState = {
     breeds: [],
     list: [],
-    selected: [],
-    page: 1,
+    selected: {},
+    page: 0,
+    limit: 15,
     overflow: false,
     statusCode: null,
     statusText: null,
@@ -25,24 +26,25 @@ export const AnimalProvider = ({ children }) => {
         break;
       case 'INITIALIZE_BREEDS':
         setTimeout(() => {
-          setAnimalState({
-            ...animalState,
-            breeds: payload.data,
-            statusCode: payload.status,
-            statusText: payload.message,
-            selected: [],
-            list: [],
-          });
+          const { data, status, message, list, selected } = payload || {};
+          setAnimalState(prevState => ({
+            ...prevState,
+            breeds: data || [],
+            statusCode: status,
+            statusText: message,
+            list: list || [],
+            selected: selected || {}
+          }));
         }, 1000);
         break;
       case 'LOAD_IMAGES':
+        const { data: imageData, status: imageStatus, message: imageMessage } = payload || {};
         setAnimalState({
           ...animalState,
-          page: payload.page,
-          list: [payload.data],
-          overflow: payload.data.length === 0,
-          statusCode: payload.status,
-          statusText: payload.message,
+          list: imageData || [],
+          overflow: !imageData || imageData.length === 0,
+          statusCode: imageStatus,
+          statusText: imageMessage,
         });
         break;
       case 'LOAD_IMAGE':

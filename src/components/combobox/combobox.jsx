@@ -7,7 +7,7 @@ import { AnimalService } from '../../services/animalService';
 
 export const CustomCombobox = () => {
     const [animalState, dispatch] = useContext(AnimalContext);
-    const [selected, setSelected] = useState({});
+    const [selected, setSelected] = useState(animalState?.selected);
     const [query, setQuery] = useState('')
     const service = new AnimalService();
     const { animal } = useParams();
@@ -23,16 +23,16 @@ export const CustomCombobox = () => {
                     .includes(query.toLowerCase().replace(/\s+/g, ''))
             )
 
-    const load = async (page, id) => {
+    const load = async (id) => {
+        const { page, limit } = animalState;
         try {
-            const response = await service.getImages(animal, page, id);
-            const { data, status, text } = response
+            const response = await service.getImages(animal, page, limit, id);
+            const { data, status, statusText } = response
             dispatch('LOAD_IMAGES', {
                 data,
                 id,
-                page,
                 status,
-                message: text,
+                message: statusText,
             });
         } catch (error) {
             dispatch('ERROR', { error: error });
@@ -43,11 +43,8 @@ export const CustomCombobox = () => {
         const breed = animalState.breeds.find(x => x.name === breedDetails.name);
         setSelected(breed);
         if (breed?.id !== selected.id) {
-            load(1, breed?.id);
+            load(breed?.id);
         }
-        // const currentPath = window.location.pathname;
-        // const newPath = `${currentPath}/${breed?.name.replace(/\s+/g, '-').toLowerCase()}`;
-        // navigate(newPath);
     };
 
     return (

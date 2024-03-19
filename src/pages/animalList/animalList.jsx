@@ -23,27 +23,38 @@ const AnimalList = () => {
   }, []);
 
   useEffect(() => {
-    service
-      .getList(animal)
-      .then(res => {
+    const fetchData = async () => {
+      try {
+        const { page, limit } = animalState
+        const response = await service.getList(animal);
+        const { data, status, text } = response;
+        const randomIndex = Math.floor(Math.random() * data?.length);
+        const randomBreed = data[randomIndex];
+        const response2 = await service.getImages(animal, page, limit, randomBreed?.id)
         dispatch('INITIALIZE_BREEDS', {
-          data: res.data,
+          data: data,
           animal: animal,
-          status: res.status,
-          message: res.text,
+          status: status,
+          message: text,
+          list: response2?.data,
+          selected: response2,
         });
-      })
-      .catch(error => {
+      } catch (error) {
         dispatch('ERROR', { error: error });
-      });
+      }
+    }
+
+    fetchData();
   }, []);
 
   useEffect(() => {
     AOS.init({
-      duration: 1000,  // Set the duration of the animation
-      easing: 'ease-in-out',  // Set the easing for the animation
+      duration: 1000,
+      easing: 'ease-in-out',
     });
   }, []);
+
+  console.log(animalState.list)
 
   const renderAnimalList = () => {
     AOS.init();
@@ -57,7 +68,7 @@ const AnimalList = () => {
               <CustomCombobox />
               <div className="flex flex-col flex-wrap lg:flex-row justify-center">
                 {animalState.list.length
-                  ? animalState.list[0].map(({ id, url }, i) => (
+                  ? animalState.list.map(({ id, url }, i) => (
                     <div key={id} data-aos="fade-up">
                       <Link to={`/${animal}/${id}`} className="image-link">
                         <img
@@ -66,7 +77,6 @@ const AnimalList = () => {
                           src={url}
                         />
                       </Link>
-                      {/* <div data-aos="fade-up" /> */}
                     </div>
                   ))
                   : // animalState.overflow ? null : <LoadMore />

@@ -11,8 +11,6 @@ const AnimalView = () => {
   const service = new AnimalService();
   const { animal, id } = useParams();
 
-  console.log(animalState)
-
   useEffect(() => {
     service
       .getItemImage(animal, id)
