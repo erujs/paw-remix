@@ -5,7 +5,7 @@ This is a [React Router](https://reactrouter.com/home) + [Vite](https://vitejs.d
 
 ## Tech Stack
 
- - Framework: Remix + React Router
+ - Framework: React Router + Vite + Remix
  - Styling: Tailwind CSS
  - UI Components: shadcn/ui
  - Deployment: Netlify
