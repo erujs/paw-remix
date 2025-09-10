@@ -4,6 +4,14 @@ import { usePaw } from "~/contexts/paw-context"
 import DetailPage from "~/components/dynamic-details"
 import { Loader } from "~/components/svg"
 import type { DogBreed, Image, PawBreed } from "~/lib/data-types"
+import type { Route } from "./+types/feline";
+
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: "Paw Remix" },
+    { name: "description", content: "Welcome to React Router!" },
+  ];
+}
 
 export default function DogDetailContainer() {
   const { id } = useParams<{ id: string }>()

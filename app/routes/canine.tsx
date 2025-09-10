@@ -3,6 +3,14 @@ import { usePaw } from "~/contexts/paw-context"
 import DynamicCatalog from "~/components/dynamic-catalog"
 import { Loader } from "~/components/svg"
 import type { DogBreed } from "~/lib/data-types"
+import type { Route } from "./+types/feline";
+
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: "Paw Remix" },
+    { name: "description", content: "Welcome to React Router!" },
+  ];
+}
 
 export default function Canine() {
   const [dogs, setDogs] = useState<DogBreed[]>([])
