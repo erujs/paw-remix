@@ -5,22 +5,25 @@ interface PawContextType {
   type: PawType | null
   setType: (type: PawType) => void
 
-  selected: PawBreed | null
-  setSelected: (breed: PawBreed) => void
+  all: Record<PawType, PawBreed[]>
+  setAll: (type: PawType, breeds: PawBreed[]) => void
 
-  all: PawBreed[]
-  setAll: (breeds: PawBreed[]) => void
+  selected: Record<PawType, PawBreed | null>
+  setSelected: (type: PawType, breed: PawBreed) => void
 }
 
 const PawContext = createContext<PawContextType | undefined>(undefined)
 
 export function PawProvider({ children }: { children: ReactNode }) {
   const [type, setType] = useState<PawType | null>(null)
-  const [selected, setSelected] = useState<PawBreed | null>(null)
-  const [all, setAll] = useState<PawBreed[]>([])
+  const [all, setAllState] = useState<Record<PawType, PawBreed[]>>({ cat: [], dog: [] })
+  const [selected, setSelectedState] = useState<Record<PawType, PawBreed | null>>({ cat: null, dog: null })
+
+  const setAll = (t: PawType, breeds: PawBreed[]) => setAllState(prev => ({ ...prev, [t]: breeds }))
+  const setSelected = (t: PawType, breed: PawBreed) => setSelectedState(prev => ({ ...prev, [t]: breed }))
 
   return (
-    <PawContext.Provider value={{ type, setType, selected, setSelected, all, setAll }}>
+    <PawContext.Provider value={{ type, setType, all, setAll, selected, setSelected }}>
       {children}
     </PawContext.Provider>
   )
@@ -28,8 +31,6 @@ export function PawProvider({ children }: { children: ReactNode }) {
 
 export function usePaw() {
   const context = useContext(PawContext)
-  if (!context) {
-    throw new Error("usePaw must be used within a PawProvider")
-  }
+  if (!context) throw new Error("usePaw must be used within a PawProvider")
   return context
 }

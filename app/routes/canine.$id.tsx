@@ -1,83 +1,50 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo } from "react"
 import { useParams } from "react-router"
+import { useAPI } from "~/hooks/use-api"
 import { usePaw } from "~/contexts/paw-context"
 import DetailPage from "~/components/dynamic-details"
 import { Loader } from "~/components/svg"
-import type { DogBreed, Image, PawBreed } from "~/lib/data-types"
-import type { Route } from "./+types/feline";
-
-export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "Paw Remix" },
-    { name: "description", content: "Welcome to React Router!" },
-  ];
-}
+import type { DogBreed, Image } from "~/lib/data-types"
 
 export default function DogDetailContainer() {
   const { id } = useParams<{ id: string }>()
-  const { selected, all, setAll, setType } = usePaw()
+  const type: "dog" = "dog"
+  const { all, selected, setAll, setSelected, setType } = usePaw()
 
-  const [dog, setDog] = useState<DogBreed | null>(null)
-  const [images, setImages] = useState<Image[]>([])
-  const [loading, setLoading] = useState(true)
+  useEffect(() => setType(type), [setType])
+
+  const dogFromContext = useMemo(
+    () => selected[type]?.id === Number(id) ? selected[type] : all[type]?.find(d => d.id === Number(id)) || null,
+    [id, selected, all, type]
+  )
+
+  const { data: breeds, loading: breedsLoading } = useAPI<DogBreed[]>(
+    dogFromContext ? undefined : "https://api.thedogapi.com/v1/breeds"
+  )
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (!id) return
-      setLoading(true)
-      setType("dog")
+    if (breeds && all[type]?.length === 0) setAll(type, breeds)
+  }, [breeds, all, setAll, type])
 
-      try {
-        // Try from context first (narrow to dogs only)
-        let found: DogBreed | null =
-          (selected && selected.type === "dog" && selected.id === Number(id)
-            ? selected
-            : (all.find(
-                (d: PawBreed) => d.type === "dog" && d.id === Number(id)
-              ) as DogBreed | undefined)) || null
+  const dog = dogFromContext || breeds?.find(b => b.id === Number(id)) || null
+  useEffect(() => {
+    if (dog && selected[type]?.id !== Number(id)) setSelected(type, dog)
+  }, [dog, selected, setSelected, type, id])
 
-        // If not found, fetch from API
-        if (!found) {
-          const breedRes = await fetch("https://api.thedogapi.com/v1/breeds")
-          const breeds: DogBreed[] = await breedRes.json()
-          setAll(breeds)
-          found = breeds.find((b) => b.id === Number(id)) || null
-        }
+  const { data: images, loading: imagesLoading } = useAPI<Image[]>(
+    dog ? `https://api.thedogapi.com/v1/images/search?limit=12&breed_ids=${id}` : undefined
+  )
 
-        setDog(found)
+  const loading = breedsLoading || imagesLoading
 
-        // Always fetch breed images
-        const imageRes = await fetch(
-          `https://api.thedogapi.com/v1/images/search?limit=12&breed_ids=${id}`
-        )
-        const imageData: Image[] = await imageRes.json()
-        setImages(imageData)
-      } catch (err) {
-        console.error("Failed to fetch dog details:", err)
-        setDog(null)
-        setImages([])
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchData()
-  }, [id, setAll, setType])
-
-  if (loading && !dog) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader />
-      </div>
-    )
-  }
+  if (loading || !dog) return <Loader />
 
   return (
     <DetailPage
       title="Dogs"
       basePath="canine"
       data={dog}
-      images={images}
+      images={images || []}
       loading={loading}
     />
   )
